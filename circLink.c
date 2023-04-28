@@ -28,6 +28,7 @@ void create()
         {
             rear->next = temp;
             rear = temp;
+            rear->next = start;
         }
         scanf("%d", &i);
     }
@@ -45,7 +46,7 @@ void traverse()
     {
         temp = start;
         printf("\nThe list as below\n");
-        while (temp->next != NULL)
+        while (temp->next != start)
         {
             printf(" %d - >", temp->data);
             temp = temp->next;
@@ -64,6 +65,7 @@ void delete_first()
     {
         temp = start;
         start = start->next;
+        rear->next = start;
         printf("\nDeleted element is %d\n", temp->data);
         free(temp);
     }
@@ -78,12 +80,12 @@ void delete_last()
     else
     {
         temp = start;
-        while (temp->next != NULL)
+        do
         {
             rear = temp;
             temp = temp->next;
-        }
-        rear->next = NULL;
+        } while (temp->next != start);
+        rear->next = start;
         printf("\nDeleted element is %d\n", temp->data);
         free(temp);
     }
@@ -100,7 +102,7 @@ void delete_before()
     printf("\nEnter value before to be deleted\n");
     scanf("%d", &i);
     temp = start;
-    while (temp != NULL)
+    do
     {
         count++;
         if (temp->data == i)
@@ -109,7 +111,7 @@ void delete_before()
             break;
         }
         temp = temp->next;
-    }
+    } while (temp != start);
     if (flag == 1)
     {
         if (count == 1)
@@ -125,7 +127,7 @@ void delete_before()
         else
         {
             temp = start;
-            while (temp != NULL)
+            do
             {
                 prev = temp;
                 temp = temp->next;
@@ -135,7 +137,7 @@ void delete_before()
                     free(temp);
                     break;
                 }
-            }
+            } while (temp != NULL);
         }
     }
     else
@@ -157,6 +159,7 @@ void insert_first()
     temp->data = i;
     temp->next = start;
     start = temp;
+    rear->next = start;
 }
 void insert_last()
 {
@@ -173,6 +176,7 @@ void insert_last()
     temp->next = NULL;
     rear->next = temp;
     rear = temp;
+    rear->next=start;
 }
 void insert_before()
 {

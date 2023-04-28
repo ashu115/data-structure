@@ -2,6 +2,7 @@
 #include <stdlib.h>
 struct SLL
 {
+    struct SSL *prevs;
     int data;
     struct SLL *next;
 };
@@ -17,6 +18,7 @@ void create()
     while (i != -1)
     {
         temp = (node *)malloc(sizeof(node));
+        temp->prevs=NULL;
         temp->next = NULL;
         temp->data = i;
         if (start == NULL)
@@ -27,6 +29,7 @@ void create()
         else
         {
             rear->next = temp;
+            temp->prevs=rear;
             rear = temp;
         }
         scanf("%d", &i);
@@ -64,6 +67,7 @@ void delete_first()
     {
         temp = start;
         start = start->next;
+        start->prevs=NULL;
         printf("\nDeleted element is %d\n", temp->data);
         free(temp);
     }
@@ -120,6 +124,7 @@ void delete_before()
         {
             temp = start;
             start = start->next;
+            start->prevs=NULL;
             free(temp);
         }
         else
@@ -132,6 +137,7 @@ void delete_before()
                 if (temp->next->data == i)
                 {
                     prev->next = temp->next;
+                    temp->next->prevs=prev;
                     free(temp);
                     break;
                 }
@@ -155,7 +161,12 @@ void insert_first()
     printf("Enter value to insert: ");
     scanf("%d", &i);
     temp->data = i;
+    temp->next=NULL;
+    temp->prevs=NULL;
+    
     temp->next = start;
+    temp->prevs=NULL;
+    start->prevs=temp;
     start = temp;
 }
 void insert_last()
@@ -171,6 +182,8 @@ void insert_last()
     scanf("%d", &i);
     temp->data = i;
     temp->next = NULL;
+    temp->prevs=NULL;
+    temp->prevs=rear;
     rear->next = temp;
     rear = temp;
 }
@@ -203,10 +216,13 @@ void insert_before()
         scanf("%d", &i);
         temp->data = i;
         temp->next = NULL;
+        temp->prevs=NULL;
         if (count == 1)
         {
             temp->next = start;
+            start->prevs=temp;
             start = temp;
+            start->prevs=NULL;
         }
         else
         {
@@ -218,7 +234,9 @@ void insert_before()
                 if (trav->data == val)
                 {
                     prev->next = temp;
+                    temp->prevs=prev;
                     temp->next = trav;
+                    trav->prevs=temp;
                     break;
                 }
             }
@@ -261,6 +279,8 @@ void insert_specified()
             scanf("%d", &i);
             temp->data = i;
             temp->next = trav;
+            temp->prevs=prev;
+            trav->prevs=temp;
             prev->next = temp;
         }
         else
